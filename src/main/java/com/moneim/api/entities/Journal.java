@@ -12,10 +12,12 @@ public class Journal {
     @GeneratedValue(generator = "string2")
     private String idJournal;
     private String idUser;
+
+    private String nomUser;
     private String operation;
     private String description;
     private Date dateOperation;
-    private String idEntity;
+    private String typeEntity;
 
     public String getIdJournal() {
         return idJournal;
@@ -57,19 +59,32 @@ public class Journal {
         this.dateOperation = dateOperation;
     }
 
-    public String getIdEntity() {
-        return idEntity;
+
+    public String getNomUser() {
+        return nomUser;
     }
 
-    public void setIdEntity(String idEntity) {
-        this.idEntity = idEntity;
+    public void setNomUser(String nomUser) {
+        this.nomUser = nomUser;
     }
 
-    public Journal(String idUser, String operation, String description, Date dateOperation, String idEntity) {
+    public String getTypeEntity() {
+        return typeEntity;
+    }
+
+    public void setTypeEntity(String typeEntity) {
+        this.typeEntity = typeEntity;
+    }
+
+    public Journal() {
+    }
+
+    public Journal(String idUser, String nomUser, String operation, String description, Date dateOperation, String typeEntity) {
         this.idUser = idUser;
+        this.nomUser = nomUser;
         this.operation = operation;
         this.description = description;
         this.dateOperation = dateOperation;
-        this.idEntity = idEntity;
+        this.typeEntity = typeEntity;
     }
 }

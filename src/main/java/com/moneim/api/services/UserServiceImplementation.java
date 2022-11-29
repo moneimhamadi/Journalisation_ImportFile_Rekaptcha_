@@ -1,8 +1,10 @@
 package com.moneim.api.services;
 
+import com.moneim.api.entities.Journal;
 import com.moneim.api.entities.ObjectResponse;
 import com.moneim.api.entities.User;
 import com.moneim.api.payload.SignUpRequest;
+import com.moneim.api.repositories.JournalRepository;
 import com.moneim.api.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 
@@ -21,6 +24,8 @@ public class UserServiceImplementation implements IUserService {
 
     @Autowired
     PasswordEncoder encoder;
+    @Autowired
+    JournalRepository journalRepositoy;
     @Override
     public ObjectResponse signuUp(SignUpRequest signUpRequest) {
 
@@ -33,6 +38,7 @@ public class UserServiceImplementation implements IUserService {
                 return new ObjectResponse("User déja existe!!! Changer username  )", userRepository.findByUsername(signUpRequest.getUsername()), 0);
             } else {
                 User u = userRepository.save(new User(signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword())  , signUpRequest.getRoles()));
+                Journal journal=journalRepositoy.save( new Journal(u.getIdUser(),signUpRequest.getNom()+" "+signUpRequest.getPrenom(),"Create","Account Creation",new Date(),"USER"));
                 return new ObjectResponse("User ajouté avec succés", u, 1);
             }
 

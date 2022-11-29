@@ -1,9 +1,11 @@
 package com.moneim.api.controllers;
 
+import com.moneim.api.entities.Journal;
 import com.moneim.api.entities.RefreshToken;
 import com.moneim.api.payload.JwtResponse;
 import com.moneim.api.payload.LoginRequest;
 import com.moneim.api.payload.MessageResponse;
+import com.moneim.api.repositories.JournalRepository;
 import com.moneim.api.repositories.UserRepository;
 import com.moneim.api.security.jwt.JwtUtils;
 import com.moneim.api.security.services.RefreshTokenService;
@@ -16,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,10 @@ public class AuthentificationController {
     JwtUtils jwtUtils;
     @Autowired
     RefreshTokenService refreshTokenService;
+    @Autowired
+    JournalRepository journalReposiory;
+    @Autowired
+    UserRepository userRepository;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
@@ -48,16 +55,29 @@ public class AuthentificationController {
                 .collect(Collectors.toList());
 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
-
+        Journal journalSignIn=journalReposiory.save(new Journal(
+                userDetails.getId(),
+                (userRepository.findById(userDetails.getId()).get().getNom())+" "+userRepository.findById(userDetails.getId()).get().getPrenom(),
+                "LogIn",
+                "Logged in app",
+                new Date(),
+                "User sign in"));
         return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
                 userDetails.getUsername(), userDetails.getEmail(), roles));
     }
 
     @PostMapping("/signout/{idUser}")
     public ResponseEntity<?> logoutUser( @PathVariable String idUser) {
-        //UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-       // String idUser = userDetails.getId();
+
         refreshTokenService.deleteByUserId(idUser);
+
+        Journal journalSignOut=journalReposiory.save(new Journal(
+                idUser,
+                (userRepository.findById(idUser).get().getNom())+" "+userRepository.findById(idUser).get().getPrenom(),
+                "LogOut",
+                "Logged out from app",
+                new Date(),
+                "User Log out"));
         return ResponseEntity.ok(new MessageResponse("Log out successful!"));
     }
 }

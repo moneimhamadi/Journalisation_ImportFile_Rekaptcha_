@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping ("/user")
+@RequestMapping("/user")
 public class UserRestController {
 
     @Autowired
     IUserService userService;
 
-    @PostMapping("/signUp")
+    @PostMapping(value="/signUp")
     public ObjectResponse signUp(@RequestBody SignUpRequest signUpRequest){
         return  userService.signuUp(signUpRequest);
     }

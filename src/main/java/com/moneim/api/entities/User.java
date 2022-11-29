@@ -67,6 +67,8 @@ public class User {
         this.password = password;
     }
 
+
+
     public List<String> getRoles() {
         return roles;
     }
@@ -79,6 +81,16 @@ public class User {
     }
 
     public User(String nom, String prenom, String username, String email, String password, List<String> roles) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(String idUser, String nom, String prenom, String username, String email, String password, List<String> roles) {
+        this.idUser = idUser;
         this.nom = nom;
         this.prenom = prenom;
         this.username = username;
