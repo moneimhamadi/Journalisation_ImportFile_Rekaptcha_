@@ -33,6 +33,7 @@ public class WebSecurityConfig {
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -52,6 +53,7 @@ public class WebSecurityConfig {
 
         return authProvider;
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
@@ -61,18 +63,24 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**","/user/signUp").permitAll()
-                .antMatchers("/api/test/**").permitAll()
-                .anyRequest().authenticated();
+        http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(
+                unauthorizedHandler).and().sessionManagement().sessionCreationPolicy(
+                SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers("/api/auth/**",
+                "/user/signUp",
+                "/user/getOneUserById/**",
+                "/user/deleteUserById/**",
+                "/user/updateUser/**",
+                "/user/getAllUsers",
+                "/journal/getAllJournals",
+                "/journal/findJournalsByIdUser/**").permitAll().anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(),
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

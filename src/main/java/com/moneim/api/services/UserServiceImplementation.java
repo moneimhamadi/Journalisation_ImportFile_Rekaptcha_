@@ -26,6 +26,14 @@ public class UserServiceImplementation implements IUserService {
     PasswordEncoder encoder;
     @Autowired
     JournalRepository journalRepositoy;
+
+    @Override
+    public ObjectResponse getAllUsers() {
+        return new ObjectResponse("Users Founds",
+                userRepository.findAll(),
+                1);
+    }
+
     @Override
     public ObjectResponse signuUp(SignUpRequest signUpRequest) {
 
@@ -33,17 +41,35 @@ public class UserServiceImplementation implements IUserService {
 
         try {
             if ((userRepository.findByEmail(signUpRequest.getEmail()) != null)) {
-                return new ObjectResponse("User déja existe!!! Changer email )", userRepository.findByEmail(signUpRequest.getEmail()), 0);
+                return new ObjectResponse("User déja existe!!! Changer email )",
+                        userRepository.findByEmail(signUpRequest.getEmail()),
+                        0);
             } else if ((userRepository.findByUsername(signUpRequest.getUsername()) != null)) {
-                return new ObjectResponse("User déja existe!!! Changer username  )", userRepository.findByUsername(signUpRequest.getUsername()), 0);
+                return new ObjectResponse("User déja existe!!! Changer username  )",
+                        userRepository.findByUsername(signUpRequest.getUsername()),
+                        0);
             } else {
-                User u = userRepository.save(new User(signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword())  , signUpRequest.getRoles()));
-                Journal journal=journalRepositoy.save( new Journal(u.getIdUser(),signUpRequest.getNom()+" "+signUpRequest.getPrenom(),"Create","Account Creation",new Date(),"USER"));
-                return new ObjectResponse("User ajouté avec succés", u, 1);
+                User u = userRepository.save(new User(signUpRequest.getNom(),
+                        signUpRequest.getPrenom(),
+                        signUpRequest.getUsername(),
+                        signUpRequest.getEmail(),
+                        encoder.encode(signUpRequest.getPassword()),
+                        signUpRequest.getRoles()));
+                Journal journal = journalRepositoy.save(new Journal(u.getIdUser(),
+                        signUpRequest.getNom() + " " + signUpRequest.getPrenom(),
+                        "Create",
+                        "Account Creation",
+                        new Date(),
+                        "USER"));
+                return new ObjectResponse("User ajouté avec succés",
+                        u,
+                        1);
             }
 
         } catch (Exception e) {
-            return new ObjectResponse("Erreur", e, 2);
+            return new ObjectResponse("Erreur",
+                    e,
+                    2);
         }
 
     }
@@ -55,16 +81,82 @@ public class UserServiceImplementation implements IUserService {
 
     @Override
     public ObjectResponse UpdateUser(String idUser, User user) {
-        return null;
+        logger.info("User Service Impl update user : Updating User with id : " + idUser);
+        try {
+            User userToUpdate = userRepository.findByIdUser(idUser);
+            if (null != userToUpdate) {
+                userToUpdate.setNom(user.getNom());
+                userToUpdate.setPrenom(user.getPrenom());
+                userToUpdate.setUsername(user.getUsername());
+                userToUpdate.setEmail(user.getEmail());
+                Journal journal = journalRepositoy.save(new Journal(idUser,
+                        (userRepository.findByIdUser(idUser)).getNom() + " " + (userRepository.findByIdUser(idUser)).getPrenom(),
+                        "Update",
+                        "Updating his profile Creation",
+                        new Date(),
+                        "USER"));
+                return new ObjectResponse("User updated",
+                        userRepository.save(userToUpdate),
+                        1);
+            } else return new ObjectResponse("User not found,Update Failed",
+                    null,
+                    0);
+
+        } catch (Exception e) {
+
+            return new ObjectResponse("Erreur " + e.getMessage(),
+                    null,
+                    2);
+        }
     }
 
     @Override
-    public ObjectResponse deleteUser(String idUser) {
-        return null;
+    public ObjectResponse deleteUser(String idUser, String idTheDoear) {
+        logger.info("User Service Impl Delete User Up : Deleting user with id : " + idUser);
+        try {
+            User user = userRepository.findByIdUser(idUser);
+            if (null != user) {
+                userRepository.deleteById(idUser);
+                Journal journal = journalRepositoy.save(new Journal(idTheDoear,
+                        (userRepository.findByIdUser(idTheDoear)).getNom() + " " + (userRepository.findByIdUser(idTheDoear)).getPrenom(),
+                        "Delete",
+                        "Delete Action",
+                        new Date(),
+                        "USER"));
+                return new ObjectResponse("User Deleted ",
+                        null,
+                        1);
+            }
+
+            return new ObjectResponse("User Not Found ",
+                    null,
+                    0);
+        } catch (Exception e) {
+            return new ObjectResponse("Erreur",
+                    e,
+                    2);
+        }
+
     }
 
     @Override
     public ObjectResponse getOneUserById(String idUser) {
-        return null;
+        logger.info("User Service Impl Get User : Getting user with id : " + idUser);
+        try {
+            User user = userRepository.findByIdUser(idUser);
+            if (null != user) {
+                return new ObjectResponse("User  found",
+                        user,
+                        1);
+            } else
+                return new ObjectResponse("User Not Found",
+                        null,
+                        0);
+
+        } catch (Exception e) {
+            return new ObjectResponse("Erreur",
+                    e,
+                    2);
+        }
     }
 }

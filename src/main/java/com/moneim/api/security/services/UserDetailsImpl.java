@@ -5,6 +5,7 @@ import com.moneim.api.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -51,9 +52,11 @@ public class UserDetailsImpl implements UserDetails {
     public String getId() {
         return id;
     }
+
     public String getEmail() {
         return email;
     }
+
     @Override
     public String getPassword() {
         return password;
@@ -83,6 +86,7 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -90,6 +94,7 @@ public class UserDetailsImpl implements UserDetails {
         if (o == null || getClass() != o.getClass())
             return false;
         UserDetailsImpl user = (UserDetailsImpl) o;
-        return Objects.equals(id, user.id);
+        return Objects.equals(id,
+                user.id);
     }
 }

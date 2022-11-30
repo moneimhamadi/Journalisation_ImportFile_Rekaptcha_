@@ -23,8 +23,8 @@ public class RefreshTokenService {
     private RefreshTokenRepository refreshTokenRepository;
 
 
-    public RefreshToken findByToken(String token){
-        return  refreshTokenRepository.findByToken(token);
+    public RefreshToken findByToken(String token) {
+        return refreshTokenRepository.findByToken(token);
     }
 
     public RefreshToken createRefreshToken(String idUser) {
@@ -41,11 +41,13 @@ public class RefreshTokenService {
     public RefreshToken verifyExpiration(RefreshToken token) {
         if (token.getExpirationDate().compareTo(Instant.now()) < 0) {
             refreshTokenRepository.delete(token);
-            throw new TokenRefreshException(token.getToken(), "Refresh tokenExpiree ,veuillez connecter de nouveau !");
+            throw new TokenRefreshException(token.getToken(),
+                    "Refresh tokenExpiree ,veuillez connecter de nouveau !");
         }
 
         return token;
     }
+
     @Transactional
     public Long deleteByUserId(String idUser) {
         return refreshTokenRepository.deleteByIdUser(idUser);

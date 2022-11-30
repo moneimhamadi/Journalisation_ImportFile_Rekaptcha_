@@ -43,7 +43,8 @@ public class AuthentificationController {
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                        loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -55,25 +56,29 @@ public class AuthentificationController {
                 .collect(Collectors.toList());
 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
-        Journal journalSignIn=journalReposiory.save(new Journal(
+        Journal journalSignIn = journalReposiory.save(new Journal(
                 userDetails.getId(),
-                (userRepository.findById(userDetails.getId()).get().getNom())+" "+userRepository.findById(userDetails.getId()).get().getPrenom(),
+                (userRepository.findById(userDetails.getId()).get().getNom()) + " " + userRepository.findById(userDetails.getId()).get().getPrenom(),
                 "LogIn",
                 "Logged in app",
                 new Date(),
                 "User sign in"));
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
-                userDetails.getUsername(), userDetails.getEmail(), roles));
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                refreshToken.getToken(),
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles));
     }
 
     @PostMapping("/signout/{idUser}")
-    public ResponseEntity<?> logoutUser( @PathVariable String idUser) {
+    public ResponseEntity<?> logoutUser(@PathVariable String idUser) {
 
         refreshTokenService.deleteByUserId(idUser);
 
-        Journal journalSignOut=journalReposiory.save(new Journal(
+        Journal journalSignOut = journalReposiory.save(new Journal(
                 idUser,
-                (userRepository.findById(idUser).get().getNom())+" "+userRepository.findById(idUser).get().getPrenom(),
+                (userRepository.findById(idUser).get().getNom()) + " " + userRepository.findById(idUser).get().getPrenom(),
                 "LogOut",
                 "Logged out from app",
                 new Date(),

@@ -8,9 +8,15 @@ import org.springframework.stereotype.Service;
 @Service
 public interface IUserService {
 
+    ObjectResponse getAllUsers();
+
     ObjectResponse signuUp(SignUpRequest signUpRequest);
-    ObjectResponse  logOut();
+
+    ObjectResponse logOut();
+
     ObjectResponse UpdateUser(String idUser, User user);
-    ObjectResponse deleteUser(String idUser);
+
+    ObjectResponse deleteUser(String idUser, String idTheDoear);
+
     ObjectResponse getOneUserById(String idUser);
 }
