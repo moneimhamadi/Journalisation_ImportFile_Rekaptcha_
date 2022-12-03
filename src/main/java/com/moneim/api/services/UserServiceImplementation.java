@@ -41,11 +41,11 @@ public class UserServiceImplementation implements IUserService {
 
         try {
             if ((userRepository.findByEmail(signUpRequest.getEmail()) != null)) {
-                return new ObjectResponse("User déja existe!!! Changer email )",
+                return new ObjectResponse("User déja existe!!! Changer email ",
                         userRepository.findByEmail(signUpRequest.getEmail()),
                         0);
             } else if ((userRepository.findByUsername(signUpRequest.getUsername()) != null)) {
-                return new ObjectResponse("User déja existe!!! Changer username  )",
+                return new ObjectResponse("User déja existe!!! Changer username ",
                         userRepository.findByUsername(signUpRequest.getUsername()),
                         0);
             } else {

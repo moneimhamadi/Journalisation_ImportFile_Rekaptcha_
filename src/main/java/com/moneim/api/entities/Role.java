@@ -27,4 +27,8 @@ public class Role {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+    public Role(String nom) {
+        this.nom = nom;
+    }
 }

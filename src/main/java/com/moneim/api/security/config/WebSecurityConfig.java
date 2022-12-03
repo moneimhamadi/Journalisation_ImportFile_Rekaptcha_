@@ -75,7 +75,10 @@ public class WebSecurityConfig {
                 "/user/updateUser/**",
                 "/user/getAllUsers",
                 "/journal/getAllJournals",
-                "/journal/findJournalsByIdUser/**").permitAll().anyRequest().authenticated();
+                "/journal/findJournalsByIdUser/**",
+                "/role/getAllRoles",
+                "/role/deleteRole/**",
+                "/Role/addRole/**").permitAll().anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
 
