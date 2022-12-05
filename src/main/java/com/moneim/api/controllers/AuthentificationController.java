@@ -2,9 +2,9 @@ package com.moneim.api.controllers;
 
 import com.moneim.api.entities.Journal;
 import com.moneim.api.entities.RefreshToken;
-import com.moneim.api.payload.JwtResponse;
-import com.moneim.api.payload.LoginRequest;
-import com.moneim.api.payload.MessageResponse;
+import com.moneim.api.entities.User;
+import com.moneim.api.exception.TokenRefreshException;
+import com.moneim.api.payload.*;
 import com.moneim.api.repositories.JournalRepository;
 import com.moneim.api.repositories.UserRepository;
 import com.moneim.api.security.jwt.JwtUtils;
@@ -85,4 +85,20 @@ public class AuthentificationController {
                 "User Log out"));
         return ResponseEntity.ok(new MessageResponse("Log out successful!"));
     }
+
+//    @PostMapping("/refreshtoken")
+//    public ResponseEntity<?> refreshTheToken( @RequestBody RefreshTokenRequest request) {
+//        String  requestRefreshToken = request.getRefreshToken();
+//
+//        return refreshTokenService.findByToken(requestRefreshToken)
+//                .map(refreshTokenService::verifyExpiration)
+//                .map(  (RefreshToken::getIdUser) )
+//
+//                .map (  user -> {
+//                    String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+//                    return ResponseEntity.ok(new RefreshTokenResponse(token, requestRefreshToken));
+//                })
+//                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+//                        "Refresh token is not in database!"));
+//    }
 }

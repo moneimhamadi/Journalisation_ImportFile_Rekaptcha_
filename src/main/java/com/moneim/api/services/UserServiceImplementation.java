@@ -53,7 +53,7 @@ public class UserServiceImplementation implements IUserService {
                         signUpRequest.getPrenom(),
                         signUpRequest.getUsername(),
                         signUpRequest.getEmail(),
-                        encoder.encode(signUpRequest.getPassword()),
+                        encoder.encode(signUpRequest.getPassword()),signUpRequest.getDateNaissance(),
                         signUpRequest.getRoles()));
                 Journal journal = journalRepositoy.save(new Journal(u.getIdUser(),
                         signUpRequest.getNom() + " " + signUpRequest.getPrenom(),

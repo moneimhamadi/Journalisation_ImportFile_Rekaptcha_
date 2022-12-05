@@ -2,6 +2,7 @@ package com.moneim.api.payload;
 
 import com.moneim.api.entities.Role;
 
+import java.util.Date;
 import java.util.List;
 
 public class SignUpRequest {
@@ -10,6 +11,8 @@ public class SignUpRequest {
     private String username;
     private String email;
     private String password;
+
+    private Date dateNaissance;
     private List<String> roles;
 
     public String getNom() {
@@ -54,6 +57,14 @@ public class SignUpRequest {
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    public Date getDateNaissance() {
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(Date dateNaissance) {
+        this.dateNaissance = dateNaissance;
     }
 
     public void setRoles(List<String> roles) {

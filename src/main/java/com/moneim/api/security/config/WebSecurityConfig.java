@@ -67,18 +67,20 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(
-                unauthorizedHandler).and().sessionManagement().sessionCreationPolicy(
-                SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers("/api/auth/**",
-                "/user/signUp",
-                "/user/getOneUserById/**",
-                "/user/deleteUserById/**",
-                "/user/updateUser/**",
-                "/user/getAllUsers",
-                "/journal/getAllJournals",
-                "/journal/findJournalsByIdUser/**",
-                "/role/getAllRoles",
-                "/role/deleteRole/**",
-                "/Role/addRole/**").permitAll().anyRequest().authenticated();
+                        unauthorizedHandler).and().sessionManagement().sessionCreationPolicy(
+                        SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers("/api/auth/**",
+                        "/user/signUp",
+                        "/user/getOneUserById/**",
+                        "/user/deleteUserById/**",
+                        "/user/updateUser/**",
+                        "/journal/getAllJournals",
+                        "/journal/findJournalsByIdUser/**",
+                        "/role/getAllRoles",
+                        "/role/deleteRole/**",
+                        "/Role/addRole/**").permitAll()
+
+               .and().authorizeRequests().antMatchers("/user/getAllUsers").hasAnyAuthority("ADMINISTRATOR");
+
 
         http.authenticationProvider(authenticationProvider());
 
