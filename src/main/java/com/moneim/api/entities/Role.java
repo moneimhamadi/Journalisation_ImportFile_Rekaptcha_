@@ -28,6 +28,10 @@ public class Role {
         this.nom = nom;
     }
 
+
+    public Role() {
+    }
+
     public Role(String nom) {
         this.nom = nom;
     }

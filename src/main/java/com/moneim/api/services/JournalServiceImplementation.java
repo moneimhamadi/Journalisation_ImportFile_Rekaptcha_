@@ -59,4 +59,25 @@ public class JournalServiceImplementation implements IJournalService {
                     2);
         }
     }
+
+    @Override
+    public ObjectResponse findAllJournalsByOperation(String operation) {
+        logger.info("Journal Service Impl  : Getting All Journals By opeartion " + operation);
+
+        try {
+            List<Journal> listJournals = journalRepository.findByOperation(operation);
+
+            if (listJournals.size() == 0) {
+                return new ObjectResponse("Empty list Journals",
+                        null,
+                        0);
+            } else return new ObjectResponse("List Journaux found ",
+                    journalRepository.findByOperation(operation),
+                    1);
+        } catch (Exception e) {
+            return new ObjectResponse(" Erreur " + e.getMessage(),
+                    null,
+                    2);
+        }
+    }
 }

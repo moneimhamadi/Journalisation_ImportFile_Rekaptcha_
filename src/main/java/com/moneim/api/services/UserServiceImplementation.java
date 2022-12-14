@@ -92,7 +92,7 @@ public class UserServiceImplementation implements IUserService {
                 Journal journal = journalRepositoy.save(new Journal(idUser,
                         (userRepository.findByIdUser(idUser)).getNom() + " " + (userRepository.findByIdUser(idUser)).getPrenom(),
                         "Update",
-                        "Updating his profile Creation",
+                        "Updating My profile ",
                         new Date(),
                         "USER"));
                 return new ObjectResponse("User updated",

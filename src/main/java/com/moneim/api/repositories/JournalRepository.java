@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface JournalRepository extends MongoRepository<Journal, String> {
     List<Journal> findByIdUser(String idUser);
+    List<Journal> findByOperation(String operation);
 }

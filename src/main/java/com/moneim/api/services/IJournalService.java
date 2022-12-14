@@ -9,4 +9,6 @@ public interface IJournalService {
     ObjectResponse getAllJournals();
 
     ObjectResponse getAllJournalByIdUser(String idUser);
+
+    ObjectResponse findAllJournalsByOperation(String operation);
 }

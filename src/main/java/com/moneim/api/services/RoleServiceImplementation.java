@@ -76,7 +76,7 @@ public class RoleServiceImplementation implements IRoleService {
     }
 
     @Override
-    public ObjectResponse deleteRole(String idRole,String idTheDoerUser) {
+    public ObjectResponse deleteRole(String idRole, String idTheDoerUser) {
         logger.info("Role Service Impl Delete User Up : Deleting role with id : " + idRole);
         try {
             Role role = roleRepository.findByIdRole(idRole);
@@ -96,6 +96,37 @@ public class RoleServiceImplementation implements IRoleService {
             return new ObjectResponse("Role Not Found ",
                     null,
                     0);
+        } catch (Exception e) {
+            return new ObjectResponse("Erreur",
+                    e,
+                    2);
+        }
+    }
+
+    @Override
+    public ObjectResponse editUserRoles(String idUser, List<String> roles, String idTheDoear) {
+        logger.info("Role Service Impl Update roles User  : Updating roles to User  with id : " + idUser);
+
+        try {
+            User userToUpdateRoles = userRepository.findByIdUser(idUser);
+            if (null != userToUpdateRoles) {
+                userToUpdateRoles.setRoles(roles);
+                User u = userRepository.save(userToUpdateRoles);
+                Journal journal = journalRepositoy.save(new Journal(idTheDoear,
+                        (userRepository.findByIdUser(idTheDoear)).getNom() + " " + (userRepository.findByIdUser(idTheDoear)).getPrenom(),
+                        "UPDATE",
+                        "UPDATE Role",
+                        new Date(),
+                        "Users roles"));
+                return new ObjectResponse("Roles are updates with success",
+                        u.getRoles(),
+                        1);
+            }
+
+            return new ObjectResponse("USER NOT FOUND",
+                    null,
+                    0);
+
         } catch (Exception e) {
             return new ObjectResponse("Erreur",
                     e,

@@ -77,9 +77,12 @@ public class WebSecurityConfig {
                         "/journal/findJournalsByIdUser/**",
                         "/role/getAllRoles",
                         "/role/deleteRole/**",
-                        "/Role/addRole/**").permitAll()
+                        "/role/addRole/**"
+                        ,
+                        "/role/updateUserRoles/**",
+                        "/journal/findJournalsByOpeartion/**").permitAll()
 
-               .and().authorizeRequests().antMatchers("/user/getAllUsers").hasAnyAuthority("ADMINISTRATOR");
+                .and().authorizeRequests().antMatchers("/user/getAllUsers").hasAnyAuthority("ADMINISTRATOR");
 
 
         http.authenticationProvider(authenticationProvider());

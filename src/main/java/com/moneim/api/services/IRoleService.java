@@ -11,4 +11,5 @@ public interface IRoleService {
     public ObjectResponse getAllRoles();
     public ObjectResponse addRole(Role role,String idTheDoerUser);
     public ObjectResponse deleteRole(String idRole,String idTheDoerUser);
+    public ObjectResponse editUserRoles(String idUser,List<String> roles,String idTheDoear);
 }

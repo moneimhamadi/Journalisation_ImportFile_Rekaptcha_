@@ -23,4 +23,8 @@ public class JournalController {
         return journalService.getAllJournalByIdUser(idUser);
     }
 
+    @GetMapping("/findJournalsByOpeartion/{operation}")
+    public ObjectResponse findJournalsByOpeartion(@PathVariable String operation) {
+        return journalService.findAllJournalsByOperation(operation);
+    }
 }
