@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class JournalServiceImplementation implements IJournalService {
@@ -79,5 +82,13 @@ public class JournalServiceImplementation implements IJournalService {
                     null,
                     2);
         }
+    }
+
+    @Override
+    public ObjectResponse getAllForeachTypeOperation() {
+
+        List<Journal> allJournals=journalRepository.findAll();
+        Map<String,List<Journal>> byTypeOperation=allJournals.stream().collect(Collectors.groupingBy(Journal::getOperation));
+        return new ObjectResponse("Journals By Operation",byTypeOperation,1);
     }
 }

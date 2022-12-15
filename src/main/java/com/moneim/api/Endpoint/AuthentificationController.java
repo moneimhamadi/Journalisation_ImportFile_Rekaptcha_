@@ -1,9 +1,7 @@
-package com.moneim.api.controllers;
+package com.moneim.api.Endpoint;
 
 import com.moneim.api.entities.Journal;
 import com.moneim.api.entities.RefreshToken;
-import com.moneim.api.entities.User;
-import com.moneim.api.exception.TokenRefreshException;
 import com.moneim.api.payload.*;
 import com.moneim.api.repositories.JournalRepository;
 import com.moneim.api.repositories.UserRepository;

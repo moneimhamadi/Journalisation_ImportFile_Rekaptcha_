@@ -1,4 +1,4 @@
-package com.moneim.api.controllers;
+package com.moneim.api.Endpoint;
 
 
 import com.moneim.api.entities.ObjectResponse;

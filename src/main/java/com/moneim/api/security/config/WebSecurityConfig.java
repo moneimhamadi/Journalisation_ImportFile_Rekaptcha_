@@ -15,6 +15,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,11 +25,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableGlobalMethodSecurity(
+@EnableGlobalMethodSecurity (
         // securedEnabled = true,
         // jsr250Enabled = true,
         prePostEnabled = true)
-public class WebSecurityConfig {
+public class WebSecurityConfig  {
 
     @Autowired
     UserDetailsServiceImpl userDetailsService;
@@ -80,7 +83,8 @@ public class WebSecurityConfig {
                         "/role/addRole/**"
                         ,
                         "/role/updateUserRoles/**",
-                        "/journal/findJournalsByOpeartion/**").permitAll()
+                        "/journal/findJournalsByOpeartion/**",
+                        "/journal/getAllForeachTypeOperation","/v1/upload/**","/swagger-ui.html","/file/uploadFile/**").permitAll()
 
                 .and().authorizeRequests().antMatchers("/user/getAllUsers").hasAnyAuthority("ADMINISTRATOR");
 
@@ -93,4 +97,9 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/v2/api-docs/**",
+                "/swagger-ui/**","/swagger-resources/**","/swagger-ui.html","/webjars/**");
+    }
 }

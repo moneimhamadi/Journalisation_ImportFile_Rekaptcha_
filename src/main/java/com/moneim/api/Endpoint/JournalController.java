@@ -1,7 +1,6 @@
-package com.moneim.api.controllers;
+package com.moneim.api.Endpoint;
 
 import com.moneim.api.entities.ObjectResponse;
-import com.moneim.api.repositories.JournalRepository;
 import com.moneim.api.services.IJournalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +25,9 @@ public class JournalController {
     @GetMapping("/findJournalsByOpeartion/{operation}")
     public ObjectResponse findJournalsByOpeartion(@PathVariable String operation) {
         return journalService.findAllJournalsByOperation(operation);
+    }
+    @GetMapping("/getAllForeachTypeOperation")
+    public ObjectResponse getAllForeachTypeOperation() {
+        return journalService.getAllForeachTypeOperation();
     }
 }

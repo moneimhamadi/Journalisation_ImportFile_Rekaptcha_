@@ -11,4 +11,6 @@ public interface IJournalService {
     ObjectResponse getAllJournalByIdUser(String idUser);
 
     ObjectResponse findAllJournalsByOperation(String operation);
+
+    public ObjectResponse getAllForeachTypeOperation();
 }
